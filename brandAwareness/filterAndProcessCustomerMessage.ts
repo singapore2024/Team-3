@@ -11,7 +11,7 @@ const openai = new OpenAI({
 });
 
 
-async function filterAndSimplifyText(message: string) { 
+async function filterAndSimplifyCustomerText(message: string) { 
   try {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
