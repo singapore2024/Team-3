@@ -24,19 +24,20 @@ type Message = {
 
   // Function to make a POST request to the server
   const processCustomerMessage = async (message: string) => {
-    const response = await fetch('http://localhost:3000/processCustomerMessage', {
+    const response = await fetch('http://localhost:3001/processCustomerMessage', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message }), // Send the message as JSON
+      body: JSON.stringify({ text: message }), // Send the message as JSON
     });
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
 
-    const data = await response.json();
+    const data = await response.text();
+    console.log('data', data)
     return data; // Process the response as needed
   };
 
@@ -120,12 +121,15 @@ export default function AccessibleChatWithSpeech() {
   const handleSend = async () => {
     if (inputText.trim()) {
       const newMessage: Message = { text: inputText, isUser: true }
-      setMessages(prev => [...prev, newMessage])
       setInputText('')
       // Here you would typically send the message to a backend or AI service
       // For this example, we'll just echo the message back
       const response = await processCustomerMessage(inputText)
-      setMessages(prev => [...prev, response])
+      const responseText = response.split(":")[1]
+      setMessages(prev => [...prev, {
+        text: responseText,
+        isUser: true,
+      }])
     }
   }
 
