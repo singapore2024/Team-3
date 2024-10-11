@@ -303,12 +303,12 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: "Staff",
         subLabel: "Chat with your customers",
-        href: "#",
+        href: "/chat",
       },
       {
         label: "Public",
         subLabel: "Chat with your favorite chefs",
-        href: "#",
+        href: "/chat",
       },
     ],
   },
