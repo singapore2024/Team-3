@@ -4,10 +4,10 @@ import {
   Grid,
   GridItem,
   VStack,
-  Text,
   Input,
   Button,
 } from "@chakra-ui/react";
+import Image from 'next/image'
 import Router from "next/router";
 import { useState } from "react";
 
@@ -37,7 +37,12 @@ const SignInPage = () => {
           ml={{ md: "-1.75rem", lg: "-2rem" }}
           mr={{ md: "-1.75rem", lg: 0 }}
         >
-          <Text>Metropolitan</Text>
+          <Image
+            src='/fortitude-image.png'
+            alt="Fortitude Image"
+            width={500}
+            height={500}
+          />
         </GridItem>
         <SignIn />
       </Grid>
@@ -64,15 +69,18 @@ const SignIn = () => {
         <Input
           placeholder="Username"
           value={username}
+          w="24rem"
           onChange={(e) => setUsername(e.target.value)}
         />
         <Input
           placeholder="Password"
           value={password}
+          w="24rem"
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button
-          colorScheme="blue"
+          color="black"
+          w="24rem"
           onClick={async () => {
             // Placeholder for sign-in logic
             const res = await fetch("/api/sign-in");
