@@ -16,9 +16,14 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
+  Divider,
+  HStack,
+  Progress,
 } from "@chakra-ui/react";
+import withNoSSR from "@/components/WithNoSSR";
+import { useReader } from "@/features/reader/ReaderContext";
 
-export default function RecipePage() {
+export function RecipePage() {
   const router = useRouter();
   const recipeIndex = router.query.recipeIndex;
 
@@ -29,21 +34,25 @@ export default function RecipePage() {
     description: string;
     time?: number;
   } | null>(null);
+  const [completedTasks, setCompletedTasks] = useState<Set<number>>(new Set());
   const [timeLeft, setTimeLeft] = useState<number | null>(null); // Time left in seconds
+  const [isRunning, setIsRunning] = useState(false); // Timer running state
+  const { isReaderMode } = useReader();
 
   // Countdown timer effect
   useEffect(() => {
-    if (isOpen && timeLeft && timeLeft > 0) {
-      const timer = setInterval(() => {
+    let timer: NodeJS.Timeout;
+    if (isRunning && timeLeft && timeLeft > 0) {
+      timer = setInterval(() => {
         setTimeLeft((prevTime) =>
-          prevTime ? (prevTime > 0 ? prevTime - 1 : 0) : 0
+          prevTime && prevTime > 0 ? prevTime - 1 : 0
         );
       }, 1000);
-
-      // Cleanup interval on modal close or when time reaches 0
-      return () => clearInterval(timer);
     }
-  }, [isOpen, timeLeft]);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(timer);
+  }, [isRunning, timeLeft]);
 
   // Return a "Recipe not found" page if the index is invalid
   if (!recipeIndex || Number(recipeIndex) > recipes.length) {
@@ -64,8 +73,18 @@ export default function RecipePage() {
     description: string;
     time?: number;
   }) => {
+    if (isReaderMode) {
+      const speak_name = new SpeechSynthesisUtterance(task.name);
+      window.speechSynthesis.speak(speak_name);
+      const speak_description = new SpeechSynthesisUtterance(task.description);
+      window.speechSynthesis.speak(speak_description);
+      return;
+    }
     setSelectedTask(task); // Set the clicked task
-    if (task.time) setTimeLeft(task.time * 60); // Reset the countdown timer
+    if (task.time) {
+      setTimeLeft(task.time * 60); // Reset the countdown timer
+    }
+    setIsRunning(false); // Pause timer initially
     onOpen(); // Open the modal
   };
 
@@ -76,14 +95,28 @@ export default function RecipePage() {
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
+  // Complete task inside the modal and reflect on the main list
+  const handleCompleteTaskInModal = () => {
+    const taskIndex = tasks.findIndex(
+      (task) => task.name === selectedTask?.name
+    );
+    if (taskIndex !== -1) {
+      setCompletedTasks((prev) => {
+        const newSet = new Set(prev);
+        newSet.add(taskIndex);
+        return newSet;
+      });
+      onClose(); // Close modal after marking task as completed
+    }
+  };
+
   return (
     <>
       <WithSubnavigation />
       <Stack spacing={4} p={4}>
-        <Text fontWeight="bold" fontSize="2rem">
+        <Text fontWeight="bold" fontSize="3rem" textAlign="center">
           {recipe.title}
         </Text>
-
         {/* Container for tasks in a horizontal row */}
         <Flex direction="row" overflowX="auto" gap={4}>
           {tasks.map((task, index) => (
@@ -93,21 +126,45 @@ export default function RecipePage() {
               borderWidth="1px"
               borderRadius="lg"
               boxShadow="md"
-              w="250px"
-              bg="gray.50"
+              w="300px"
+              bg={completedTasks.has(index) ? "green.100" : "white"}
               flexShrink={0}
               onClick={() => handleTaskClick(task)} // Handle task click
               cursor="pointer"
             >
-              <Text fontWeight="bold" fontSize="1.5rem">
-                {task.name}
-              </Text>
-              <Text mt={2} fontSize="1rem">
-                {task.description}
-              </Text>
-              <Text mt={2} fontStyle="italic">
-                {task.time} mins
-              </Text>
+              <Box h="15rem">
+                <Text fontWeight="bold" fontSize="2rem">
+                  {task.name}
+                </Text>
+                <Text mt={2} fontSize="1.5rem">
+                  {task.description}
+                </Text>
+                <Text mt={2} fontStyle="italic">
+                  {task.time} mins
+                </Text>
+              </Box>
+              <Divider />
+              <HStack w="full" alignItems="center" justifyContent="center">
+                <Button
+                  color="black"
+                  size="lg"
+                  mt={2}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCompletedTasks((prev) => {
+                      const newSet = new Set(prev);
+                      if (newSet.has(index)) {
+                        newSet.delete(index);
+                      } else {
+                        newSet.add(index);
+                      }
+                      return newSet;
+                    });
+                  }}
+                >
+                  {completedTasks.has(index) ? "Completed" : "Complete"}
+                </Button>
+              </HStack>
             </Box>
           ))}
         </Flex>
@@ -117,22 +174,71 @@ export default function RecipePage() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{selectedTask?.name}</ModalHeader>
+          <ModalHeader fontSize="3rem">{selectedTask?.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>{selectedTask?.description}</Text>
-            <Text mt={4} fontWeight="bold">
-              Time: {selectedTask?.time} mins
-            </Text>
+            <Text fontSize="2rem">{selectedTask?.description}</Text>
             {/* Display countdown timer */}
-            <Text mt={4} fontSize="xl" color="red.500">
+            <Text mt={4} fontSize="2rem" color="red.500">
               {timeLeft && timeLeft > 0
                 ? `Time left: ${formatTime(timeLeft)}`
                 : "Time's up!"}
             </Text>
+
+            {/* Progress bar */}
+            {selectedTask?.time && (
+              <Progress
+                mt={4}
+                value={((timeLeft ?? 0) / (selectedTask.time * 60)) * 100}
+                colorScheme="green"
+                size="lg"
+                borderRadius="md"
+              />
+            )}
+
+            {/* Timer controls */}
+            <HStack mt={4} justifyContent="space-between">
+              <Button
+                colorScheme="green"
+                size="lg"
+                onClick={() => setIsRunning(true)}
+                isDisabled={isRunning}
+              >
+                Start
+              </Button>
+              <Button
+                size="lg"
+                colorScheme="yellow"
+                onClick={() => setIsRunning(false)}
+                isDisabled={!isRunning}
+              >
+                Pause
+              </Button>
+              <Button
+                size="lg"
+                colorScheme="red"
+                onClick={() => {
+                  if (selectedTask?.time) setTimeLeft(selectedTask.time * 60);
+                  setIsRunning(false);
+                }}
+              >
+                Reset
+              </Button>
+            </HStack>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button
+              bg="black"
+              color="white"
+              mr={3}
+              onClick={handleCompleteTaskInModal}
+              isDisabled={completedTasks.has(
+                tasks.findIndex((task) => task.name === selectedTask?.name)
+              )}
+            >
+              Complete Task
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
               Close
             </Button>
           </ModalFooter>
@@ -141,3 +247,5 @@ export default function RecipePage() {
     </>
   );
 }
+
+export default withNoSSR(RecipePage);

@@ -1,5 +1,4 @@
 import WithSubnavigation from "@/components/Navbar";
-import { Button } from "@chakra-ui/react";
 
 export default function Inventory() {
   return (
@@ -7,8 +6,8 @@ export default function Inventory() {
       <WithSubnavigation />
       <div className="flex flex-col p-7">
         <div className="flex flex-row justify-between items-center font-semibold">
-          <h1 className="text-6xl">Calculator</h1>
-          <h1 className="text-5xl font-medium"> 14 Oct 2024 - 18 Oct 2024</h1>
+          <h1 className="text-5xl">Calculator</h1>
+          <h1 className="text-3xl font-medium"> 14 Oct 2024 - 18 Oct 2024</h1>
         </div>{" "}
         <table className="dashboard-table my-8">
           <thead>

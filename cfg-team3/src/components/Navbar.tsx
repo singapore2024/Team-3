@@ -3,7 +3,6 @@ import {
   Flex,
   Text,
   IconButton,
-  Button,
   Stack,
   Collapse,
   Icon,
@@ -12,7 +11,6 @@ import {
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
@@ -21,12 +19,13 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
-import { useLoginState } from "@/features/auth/LoginStateContext";
 import Router from "next/router";
+import { useReader } from "@/features/reader/ReaderContext";
+import { MdOutlineSpatialAudio } from "react-icons/md";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
-  const { hasLoginStateFlag, removeLoginStateFlag } = useLoginState();
+  const { isReaderMode, setReaderMode } = useReader();
 
   return (
     <Box className="text-3xl">
@@ -43,16 +42,36 @@ export default function WithSubnavigation() {
       >
         <Flex
           flex={{ base: 1, md: "auto" }}
-          ml={{ base: -2 }}
+          ml={{ base: 10 }}
           display={{ base: "flex", md: "none" }}
         >
           <IconButton
             onClick={onToggle}
             icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
+              isOpen ? (
+                <CloseIcon w={12} h={12} />
+              ) : (
+                <HamburgerIcon w={12} h={12} />
+              )
             }
             variant={"ghost"}
             aria-label={"Toggle Navigation"}
+          />
+          <IconButton
+            ml="2rem"
+            onClick={() => {
+              setReaderMode((prev) => !prev);
+            }}
+            icon={
+              <Icon
+                as={MdOutlineSpatialAudio}
+                w={12}
+                h={12}
+                color={isReaderMode ? "green.500" : "gray.500"}
+              />
+            }
+            variant={"ghost"}
+            aria-label={"Toggle Reader Mode"}
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
@@ -61,68 +80,38 @@ export default function WithSubnavigation() {
             alt="Fortitude Image"
             className="w-40"
             onClick={() => {
-              Router.push('/')
+              Router.push("/");
             }}
+            cursor="pointer"
           />
           <Flex
             display={{ base: "none", md: "flex" }}
             ml={10}
             className="text-3xl self-center"
+            justifyContent="space-between"
+            width="full"
           >
-            <DesktopNav />
+            <Flex>
+              <DesktopNav />
+            </Flex>
+            <IconButton
+              mr="2rem"
+              onClick={() => {
+                setReaderMode((prev) => !prev);
+              }}
+              icon={
+                <Icon
+                  as={MdOutlineSpatialAudio}
+                  w={12}
+                  h={12}
+                  color={isReaderMode ? "green.500" : "gray.500"}
+                />
+              }
+              variant={"ghost"}
+              aria-label={"Toggle Reader Mode"}
+            />
           </Flex>
         </Flex>
-        {/*
-        {!hasLoginStateFlag ? (
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={"flex-end"}
-            direction={"row"}
-            spacing={6}
-            className="text-3xl"
-          >
-            <Button
-              as={"a"}
-              fontSize={"sm"}
-              fontWeight={400}
-              variant={"link"}
-              href={"/sign-in"}
-            >
-              Sign In
-            </Button>
-            <Button
-              as={"a"}
-              display={{ base: "none", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"pink.400"}
-              href={"/sign-in"}
-              _hover={{
-                bg: "pink.300",
-              }}
-            >
-              Sign Up
-            </Button>
-          </Stack>
-        ) : (
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={"flex-end"}
-            direction={"row"}
-            spacing={6}
-          >
-            <Button
-              as={"a"}
-              fontSize={"sm"}
-              fontWeight={400}
-              variant={"link"}
-              onClick={removeLoginStateFlag}
-            >
-              Log Out
-            </Button>
-          </Stack>
-        )} */}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
