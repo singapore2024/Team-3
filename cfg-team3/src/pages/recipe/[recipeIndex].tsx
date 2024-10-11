@@ -20,8 +20,9 @@ import {
   HStack,
   Progress,
 } from "@chakra-ui/react";
+import withNoSSR from "@/components/WithNoSSR";
 
-export default function RecipePage() {
+export function RecipePage() {
   const router = useRouter();
   const recipeIndex = router.query.recipeIndex;
 
@@ -235,3 +236,5 @@ export default function RecipePage() {
     </>
   );
 }
+
+export default withNoSSR(RecipePage);

@@ -1,12 +1,11 @@
 import WithSubnavigation from "@/components/Navbar";
-import { useMe } from "@/hooks/useMe";
-import { Grid, Box, Text, Button } from "@chakra-ui/react";
+import { Grid, Box, Text, Button, VStack } from "@chakra-ui/react";
 import Router from "next/router";
 import { recipes } from "@/fakeDB/recipes";
 import { Image } from "@chakra-ui/react";
+import withNoSSR from "@/components/WithNoSSR";
 
-export default function Home() {
-  const { me } = useMe();
+export function Home() {
 
   const handleMoodClick = () => {
     Router.push("/mood");
@@ -18,17 +17,17 @@ export default function Home() {
       <Box maxHeight="100vh" overflowY="auto" padding="4">
         <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           {recipes.map((recipe, index) => (
-            <Box
+            <VStack
               key={index + 1}
               p={4}
               borderWidth="1px"
               borderRadius="lg"
               boxShadow="md"
               onClick={() => Router.push(`/recipe/${index + 1}`)}
-              justifyContent="center"
+              justifyContent="space-between"
               alignItems="center"
             >
-              <Text fontWeight="bold" textAlign="center" noOfLines={1}>
+              <Text fontWeight="bold" fontSize="2rem" textAlign="center" noOfLines={2}>
                 {recipe.title}
               </Text>
               <Box
@@ -45,7 +44,7 @@ export default function Home() {
                   boxSize="250px" // You can set fixed dimensions or make it responsive
                 />
               </Box>
-            </Box>
+            </VStack>
           ))}
         </Grid>
 
@@ -67,3 +66,5 @@ export default function Home() {
     </>
   );
 }
+
+export default withNoSSR(Home);
