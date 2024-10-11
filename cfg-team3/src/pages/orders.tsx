@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button, HStack, Input, Select } from "@chakra-ui/react";
+import { Button, HStack, Select } from "@chakra-ui/react";
 import { useState } from "react";
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -25,6 +25,7 @@ const slotContents = [
 ];
 
 export default function orders() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [items, setItems] = useState([
     { id: 1, selectedItem: "", quantity: 1 },
   ]);
