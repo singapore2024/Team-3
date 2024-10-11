@@ -1,10 +1,17 @@
 import WithSubnavigation from "@/components/Navbar";
-import { Grid, Box, Text } from "@chakra-ui/react";
+import { useMe } from "@/hooks/useMe";
+import { Grid, Box, Text, Button } from "@chakra-ui/react";
 import Router from "next/router";
 import { recipes } from "@/fakeDB/recipes";
 import { Image } from "@chakra-ui/react";
 
 export default function Home() {
+  const { me } = useMe();
+
+  const handleMoodClick = () => {
+    Router.push("/mood");
+  };
+
   return (
     <>
       <WithSubnavigation />
@@ -41,6 +48,21 @@ export default function Home() {
             </Box>
           ))}
         </Grid>
+
+        {/* Floating Mood Button */}
+        <Button
+          position="fixed"
+          bottom="4"
+          right="4"
+          colorScheme="blue"
+          size="lg"
+          borderRadius="full"
+          boxShadow="lg"
+          onClick={handleMoodClick}
+          zIndex={1000}
+        >
+          Mood 😊
+        </Button>
       </Box>
     </>
   );
