@@ -120,7 +120,6 @@ export default function AccessibleChatWithSpeech() {
 
   const handleSend = async () => {
     if (inputText.trim()) {
-      const newMessage: Message = { text: inputText, isUser: true }
       setInputText('')
       // Here you would typically send the message to a backend or AI service
       // For this example, we'll just echo the message back
