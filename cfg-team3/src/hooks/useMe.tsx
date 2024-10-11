@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import Router from "next/router";
 import { useLocalStorage } from "usehooks-ts";
 
 export const useMe = () => {
@@ -7,24 +6,20 @@ export const useMe = () => {
     name: "John Doe",
   };
 
+  // redirect to login page if not logged in?
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, __, removeLoginStateFlag] = useLocalStorage<boolean>(
     "IS_LOGGED_IN",
     false
   );
 
-  const logout = useCallback(
-    (redirectToSignIn = true) => {
-      return () => {
-        // call logout endpoint to remove cookie
-        removeLoginStateFlag();
-        if (redirectToSignIn) {
-          Router.push("/sign-in");
-        }
-      };
-    },
-    [removeLoginStateFlag]
-  );
+  const logout = useCallback(() => {
+    return () => {
+      // call logout endpoint to remove cookie
+      removeLoginStateFlag();
+    };
+  }, [removeLoginStateFlag]);
 
   return { me, logout };
 };

@@ -3,15 +3,14 @@ import {
   Flex,
   Text,
   IconButton,
-  Button,
   Stack,
   Collapse,
   Icon,
+  Image,
   Popover,
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
@@ -20,14 +19,13 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
-import { useLoginState } from "@/features/auth/LoginStateContext";
+import Router from "next/router";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
-  const { hasLoginStateFlag, removeLoginStateFlag } = useLoginState();
 
   return (
-    <Box>
+    <Box className="text-3xl">
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
@@ -41,81 +39,35 @@ export default function WithSubnavigation() {
       >
         <Flex
           flex={{ base: 1, md: "auto" }}
-          ml={{ base: -2 }}
+          ml={{ base: 10 }}
           display={{ base: "flex", md: "none" }}
         >
           <IconButton
             onClick={onToggle}
             icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
+              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={12} h={12} />
             }
             variant={"ghost"}
             aria-label={"Toggle Navigation"}
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Text
-            textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
-            color={useColorModeValue("gray.800", "white")}
+          <Image
+            src="/fortitude_culina_logo_chef.jpeg"
+            alt="Fortitude Image"
+            className="w-40"
+            onClick={() => {
+              Router.push('/')
+            }}
+          />
+          <Flex
+            display={{ base: "none", md: "flex" }}
+            ml={10}
+            className="text-3xl self-center"
           >
-            Fortitude
-          </Text>
-
-          <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
           </Flex>
         </Flex>
-
-        {!hasLoginStateFlag ? (
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={"flex-end"}
-            direction={"row"}
-            spacing={6}
-          >
-            <Button
-              as={"a"}
-              fontSize={"sm"}
-              fontWeight={400}
-              variant={"link"}
-              href={"/sign-in"}
-            >
-              Sign In
-            </Button>
-            <Button
-              as={"a"}
-              display={{ base: "none", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"pink.400"}
-              href={"/sign-in"}
-              _hover={{
-                bg: "pink.300",
-              }}
-            >
-              Sign Up
-            </Button>
-          </Stack>
-        ) : (
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={"flex-end"}
-            direction={"row"}
-            spacing={6}
-          >
-            <Button
-              as={"a"}
-              fontSize={"sm"}
-              fontWeight={400}
-              variant={"link"}
-              onClick={removeLoginStateFlag}
-            >
-              Log Out
-            </Button>
-          </Stack>
-        )}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
@@ -140,7 +92,6 @@ const DesktopNav = () => {
                 as="a"
                 p={2}
                 href={navItem.href ?? "#"}
-                fontSize={"sm"}
                 fontWeight={500}
                 color={linkColor}
                 _hover={{
@@ -289,41 +240,38 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: "Inspiration",
+    label: "Inventory",
     children: [
       {
-        label: "Explore Design Work",
-        subLabel: "Trending Design to inspire you",
-        href: "#",
+        label: "Inventory",
+        subLabel: "View your inventory",
+        href: "/inventory",
       },
       {
-        label: "New & Noteworthy",
-        subLabel: "Up-and-coming Designers",
+        label: "Calculator",
+        subLabel: "Calculating your bulk orders",
+        href: "/calculator",
+      },
+      {
+        label: "Recipes",
+        subLabel: "Ingredient & Instructions for making food",
         href: "#",
       },
     ],
   },
   {
-    label: "Find Work",
+    label: "Chat",
     children: [
       {
-        label: "Job Board",
-        subLabel: "Find your dream design job",
+        label: "Staff",
+        subLabel: "Chat with your customers",
         href: "#",
       },
       {
-        label: "Freelance Projects",
-        subLabel: "An exclusive list for contract work",
+        label: "Public",
+        subLabel: "Chat with your favorite chefs",
         href: "#",
       },
     ],
-  },
-  {
-    label: "Learn Design",
-    href: "#",
-  },
-  {
-    label: "Hire Designers",
-    href: "#",
   },
 ];

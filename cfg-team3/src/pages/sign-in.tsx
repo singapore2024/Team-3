@@ -1,13 +1,6 @@
 import { useLoginState } from "@/features/auth/LoginStateContext";
-import {
-  Flex,
-  Grid,
-  GridItem,
-  VStack,
-  Input,
-  Button,
-} from "@chakra-ui/react";
-import Image from 'next/image'
+import { Flex, Grid, GridItem, VStack, Input, Button } from "@chakra-ui/react";
+import Image from "next/image";
 import Router from "next/router";
 import { useState } from "react";
 
@@ -38,7 +31,7 @@ const SignInPage = () => {
           mr={{ md: "-1.75rem", lg: 0 }}
         >
           <Image
-            src='/fortitude-image.png'
+            src="/fortitude-image.png"
             alt="Fortitude Image"
             width={500}
             height={500}

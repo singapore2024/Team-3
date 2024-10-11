@@ -1,0 +1,34 @@
+table.dashboard-table {
+  border-collapse: collapse;
+}
+
+table.dashboard-table tr { 
+  border: solid;
+  border-width: 1px 0;
+}
+
+table.dashboard-table tr:last-child { 
+    border-bottom: none; 
+}
+
+table.dashboard-table th, td {
+  font-size: 2rem;
+}
+
+table.dashboard-table td {
+  padding: 1rem 2rem;
+}
+
+table.dashboard-table th {
+  padding: 0.5rem 2rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+table td, th{
+  white-space: nowrap
+}
+
+table .expand {
+  width: 70%
+}
