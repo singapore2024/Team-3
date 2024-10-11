@@ -1,5 +1,4 @@
 import WithSubnavigation from "@/components/Navbar";
-import { Button } from "@chakra-ui/react";
 
 export default function Inventory() {
   return (

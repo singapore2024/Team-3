@@ -1,7 +1,7 @@
 // pages/api/calculator/index.js
 
 export default async function handler(req, res) {
-  const { method, query } = req;
+  const { method } = req;
 
   if (method == "GET") {
     // Fetch all products from the database
