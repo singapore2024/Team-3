@@ -69,7 +69,7 @@ export default function WithSubnavigation() {
             <DesktopNav />
           </Flex>
         </Flex>
-
+{/* 
         {!hasLoginStateFlag ? (
           <Stack
             flex={{ base: 1, md: 0 }}
@@ -119,7 +119,7 @@ export default function WithSubnavigation() {
               Log Out
             </Button>
           </Stack>
-        )}
+        )} */}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
