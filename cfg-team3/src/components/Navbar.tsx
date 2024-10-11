@@ -295,11 +295,6 @@ const NAV_ITEMS: Array<NavItem> = [
         subLabel: "View your inventory",
         href: "/inventory",
       },
-      {
-        label: "Calculator",
-        subLabel: "Calculating your bulk orders",
-        href: "/calculator",
-      },
     ],
   },
   {
@@ -315,7 +310,6 @@ const NAV_ITEMS: Array<NavItem> = [
         subLabel: "Chat with your favorite chefs",
         href: "#",
       },
-
     ],
   },
   {
@@ -331,7 +325,11 @@ const NAV_ITEMS: Array<NavItem> = [
         subLabel: "Manage shifts",
         href: "/shifts",
       },
-      
+      {
+        label: "Calculator",
+        subLabel: "Calculating your bulk orders",
+        href: "/calculator",
+      },
     ],
   },
 ];
