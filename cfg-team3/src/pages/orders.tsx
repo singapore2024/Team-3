@@ -30,9 +30,15 @@ export default function orders() {
     { id: 1, selectedItem: "", quantity: 1 },
   ]);
 
-  const handleItemChange = (index, field, value) => {
+  const handleItemChange = (index: number, field: 'id' | 'selectedItem' | 'quantity', value: number | string) => {
     const newItems = [...items];
-    newItems[index][field] = field === "quantity" ? Number(value) : value;
+    if (field === "quantity") {
+      newItems[index][field] = Number(value); // Expect a number for quantity
+    } else if (field === "id") {
+      newItems[index][field] = Number(value); // Expect a number for id
+    } else if (field === "selectedItem") {
+      newItems[index][field] = String(value);
+    }
     setItems(newItems);
   };
 
