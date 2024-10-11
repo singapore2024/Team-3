@@ -15,7 +15,7 @@ export function Home() {
     <>
       <WithSubnavigation />
       <Box maxHeight="100vh" overflowY="auto" padding="4">
-        <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+        <Grid templateColumns={{base: "repeat(2, 1fr)", md: "repeat(3, 1fr)"}} gap={6}>
           {recipes.map((recipe, index) => (
             <VStack
               key={index + 1}
@@ -41,7 +41,8 @@ export function Home() {
                   src={recipe.image}
                   alt={recipe.title}
                   objectFit="cover" // Ensures the image maintains its aspect ratio
-                  boxSize="250px" // You can set fixed dimensions or make it responsive
+                  w="300px"
+                  h="250px"
                 />
               </Box>
             </VStack>
