@@ -1,4 +1,4 @@
-import AccessibleChatWithSpeech from "@/components/ChatWithSpeech" 
+import AccessibleChatWithSpeech from "@/components/ChatWithAccSpeech" 
 export default function ChatPage(){
   return (
     <div className="container mx-auto">
