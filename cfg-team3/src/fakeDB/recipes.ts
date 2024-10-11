@@ -7,24 +7,24 @@ export const recipes = [
       {
         name: "Cook rice",
         description: "Cook 1 cup of rice in 1.5 cups of water",
-        time: 20,
+        time: 1,
       },
       {
         name: "Prepare chicken",
         description:
-          "Marinate chicken with salt and pepper. Coat chicken with flour, egg, and panko. Fry chicken until golden brown",
-        time: 30,
+          "Coat with flour, egg, and panko. Fry until golden brown",
+        time: 1,
       },
       {
         name: "Prepare sauce",
         description:
-          "Mix lemon juice, soy sauce, and sugar in a saucepan. Bring to a simmer and thicken with cornstarch",
-        time: 10,
+          "Mix lemon juice, soy sauce, and sugar in a saucepan. Bring to a simmer.",
+        time: 1,
       },
       {
         name: "Serve",
         description: "Serve chicken with rice and sauce",
-        time: 5,
+        time: 1,
       },
     ],
   },
