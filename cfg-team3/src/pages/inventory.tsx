@@ -8,10 +8,10 @@ export default function Inventory() {
         <div className="flex flex-row justify-between items-center font-semibold">
           <h1 className="text-5xl">Inventory</h1>
           <div className="flex flex-row gap-10">
-            <button className="bg-slate-400 p-5 text-3xl rounded-lg">
+            <button className="bg-slate-300 p-5 text-3xl rounded-lg">
               Add Item
             </button>
-            <button className="bg-slate-400 p-5 text-3xl rounded-lg">
+            <button className="bg-slate-300 p-5 text-3xl rounded-lg">
               Remove Item
             </button>
           </div>
