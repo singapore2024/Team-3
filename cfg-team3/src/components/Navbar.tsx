@@ -295,6 +295,10 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
+    label: "Recipes",
+    href: "/",
+  },
+  {
     label: "Inventory",
     children: [
       {
@@ -306,11 +310,6 @@ const NAV_ITEMS: Array<NavItem> = [
         label: "Calculator",
         subLabel: "Calculating your bulk orders",
         href: "/calculator",
-      },
-      {
-        label: "Recipes",
-        subLabel: "Ingredient & Instructions for making food",
-        href: "#",
       },
     ],
   },
@@ -327,6 +326,23 @@ const NAV_ITEMS: Array<NavItem> = [
         subLabel: "Chat with your favorite chefs",
         href: "#",
       },
+
+    ],
+  },
+  {
+    label: "Admin",
+    children: [
+      {
+        label: "Orders",
+        subLabel: "Add orders here",
+        href: "/orders",
+      },
+      {
+        label: "Shifts",
+        subLabel: "Manage shifts",
+        href: "/shifts",
+      },
+      
     ],
   },
 ];

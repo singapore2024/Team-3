@@ -37,6 +37,18 @@ export default function Inventory() {
               <td>Eggs</td>
               <td>100 Units</td>
             </tr>
+            <tr>
+              <td>Rice</td>
+              <td>100 Units</td>
+            </tr>
+            <tr>
+              <td>Soya Sauce</td>
+              <td>100 Units</td>
+            </tr>
+            <tr>
+              <td>Vegetables</td>
+              <td>100 Units</td>
+            </tr>
           </tbody>
         </table>
       </div>
