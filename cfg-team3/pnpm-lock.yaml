@@ -34,6 +34,9 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
+      usehooks-ts:
+        specifier: ^3.1.0
+        version: 3.1.0(react@18.3.1)
     devDependencies:
       "@types/node":
         specifier: ^20
@@ -2185,6 +2188,12 @@ packages:
       }
     engines: { node: ">=10" }
 
+  lodash.debounce@4.0.8:
+    resolution:
+      {
+        integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==,
+      }
+
   lodash.merge@4.6.2:
     resolution:
       {
@@ -3183,6 +3192,15 @@ packages:
     peerDependenciesMeta:
       "@types/react":
         optional: true
+
+  usehooks-ts@3.1.0:
+    resolution:
+      {
+        integrity: sha512-bBIa7yUyPhE1BCc0GmR96VU/15l/9gP1Ch5mYdLcFBaFGQsdmXkvjV0TtOqW1yUd6VjIwDunm+flSciCQXujiw==,
+      }
+    engines: { node: ">=16.15.0" }
+    peerDependencies:
+      react: ^16.8.0  || ^17 || ^18
 
   util-deprecate@1.0.2:
     resolution:
@@ -4764,6 +4782,8 @@ snapshots:
     dependencies:
       p-locate: 5.0.0
 
+  lodash.debounce@4.0.8: {}
+
   lodash.merge@4.6.2: {}
 
   lodash.mergewith@4.6.2: {}
@@ -5393,6 +5413,11 @@ snapshots:
       tslib: 2.7.0
     optionalDependencies:
       "@types/react": 18.3.11
+
+  usehooks-ts@3.1.0(react@18.3.1):
+    dependencies:
+      lodash.debounce: 4.0.8
+      react: 18.3.1
 
   util-deprecate@1.0.2: {}
 

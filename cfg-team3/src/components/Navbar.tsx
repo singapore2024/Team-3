@@ -22,9 +22,11 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
+import { useLoginState } from "@/features/auth/LoginStateContext";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
+  const { hasLoginStateFlag, removeLoginStateFlag } = useLoginState();
 
   return (
     <Box>
@@ -67,36 +69,55 @@ export default function WithSubnavigation() {
           </Flex>
         </Flex>
 
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            href={"#"}
+        {!hasLoginStateFlag ? (
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={"flex-end"}
+            direction={"row"}
+            spacing={6}
           >
-            Sign In
-          </Button>
-          <Button
-            as={"a"}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"pink.400"}
-            href={"#"}
-            _hover={{
-              bg: "pink.300",
-            }}
+            <Button
+              as={"a"}
+              fontSize={"sm"}
+              fontWeight={400}
+              variant={"link"}
+              href={"/sign-in"}
+            >
+              Sign In
+            </Button>
+            <Button
+              as={"a"}
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"pink.400"}
+              href={"/sign-in"}
+              _hover={{
+                bg: "pink.300",
+              }}
+            >
+              Sign Up
+            </Button>
+          </Stack>
+        ) : (
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={"flex-end"}
+            direction={"row"}
+            spacing={6}
           >
-            Sign Up
-          </Button>
-        </Stack>
+            <Button
+              as={"a"}
+              fontSize={"sm"}
+              fontWeight={400}
+              variant={"link"}
+              onClick={removeLoginStateFlag}
+            >
+              Log Out
+            </Button>
+          </Stack>
+        )}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
