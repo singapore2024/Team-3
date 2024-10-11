@@ -6,22 +6,32 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.2.4",
+    "@chakra-ui/next-js": "^2.4.2",
+    "@chakra-ui/react": "^2.10.2",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "framer-motion": "^11.11.7",
+    "next": "14.2.15",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.15"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.15"
+    "eslint-config-next": "14.2.15",
+    "eslint-config-prettier": "^9.1.0",
+    "postcss": "^8",
+    "prettier": "2.8.8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   },
   "packageManager": "pnpm@9.0.5+sha512.a722575c18fd791f9ef71e387c6e16cc03c90d859b9b0998d0428ca0e3220828b32a96e6de73cea34edbc0f50824771b1a69c7ea36b86daa3b89c7e6d9a3d912"
 }
