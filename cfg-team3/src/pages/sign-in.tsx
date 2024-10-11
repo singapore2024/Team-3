@@ -13,14 +13,14 @@ import { useState } from "react";
 
 const SignInPage = () => {
   return (
-    <Flex flexDir="column" h="inherit" minH="$100vh">
+    <Flex flex={1} flexDir="column" minH="100vh">
       <Grid
         templateRows={{ base: "1fr auto", md: "auto 1fr auto", lg: "1fr auto" }}
         columnGap={{ base: "0.5rem", lg: "1rem" }}
         templateColumns={{ base: "repeat(4, 1fr)", md: "repeat(12, 1fr)" }}
         gap={6}
         w="100%"
-        h="100%"
+        h="100vh"
         p={4}
         alignItems="center"
         justifyContent="center"
