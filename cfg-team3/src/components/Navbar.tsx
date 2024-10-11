@@ -22,6 +22,7 @@ import {
   ChevronRightIcon,
 } from "@chakra-ui/icons";
 import { useLoginState } from "@/features/auth/LoginStateContext";
+import Router from "next/router";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -59,8 +60,10 @@ export default function WithSubnavigation() {
             src="/fortitude_culina_logo_chef.jpeg"
             alt="Fortitude Image"
             className="w-40"
+            onClick={() => {
+              Router.push('/')
+            }}
           />
-
           <Flex
             display={{ base: "none", md: "flex" }}
             ml={10}
@@ -69,7 +72,7 @@ export default function WithSubnavigation() {
             <DesktopNav />
           </Flex>
         </Flex>
-{/* 
+        {/*
         {!hasLoginStateFlag ? (
           <Stack
             flex={{ base: 1, md: 0 }}

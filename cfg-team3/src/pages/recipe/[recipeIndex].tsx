@@ -21,11 +21,29 @@ import {
 export default function RecipePage() {
   const router = useRouter();
   const recipeIndex = router.query.recipeIndex;
-  
+
   // Modal state
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(null); // Time left in seconds
+  const [selectedTask, setSelectedTask] = useState<{
+    name: string;
+    description: string;
+    time?: number;
+  } | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null); // Time left in seconds
+
+  // Countdown timer effect
+  useEffect(() => {
+    if (isOpen && timeLeft && timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) =>
+          prevTime ? (prevTime > 0 ? prevTime - 1 : 0) : 0
+        );
+      }, 1000);
+
+      // Cleanup interval on modal close or when time reaches 0
+      return () => clearInterval(timer);
+    }
+  }, [isOpen, timeLeft]);
 
   // Return a "Recipe not found" page if the index is invalid
   if (!recipeIndex || Number(recipeIndex) > recipes.length) {
@@ -41,26 +59,18 @@ export default function RecipePage() {
   const tasks = recipe.tasks;
 
   // Handle task click
-  const handleTaskClick = (task) => {
+  const handleTaskClick = (task: {
+    name: string;
+    description: string;
+    time?: number;
+  }) => {
     setSelectedTask(task); // Set the clicked task
-    setTimeLeft(task.time * 60); // Set the countdown timer in seconds
+    if (task.time) setTimeLeft(task.time * 60); // Reset the countdown timer
     onOpen(); // Open the modal
   };
 
-  // Countdown timer effect
-  useEffect(() => {
-    if (isOpen && timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-      }, 1000);
-
-      // Cleanup interval on modal close or when time reaches 0
-      return () => clearInterval(timer);
-    }
-  }, [isOpen, timeLeft]);
-
   // Convert seconds to minutes and seconds format
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
@@ -70,7 +80,9 @@ export default function RecipePage() {
     <>
       <WithSubnavigation />
       <Stack spacing={4} p={4}>
-        <h1>{recipe.title}</h1>
+        <Text fontWeight="bold" fontSize="2rem">
+          {recipe.title}
+        </Text>
 
         {/* Container for tasks in a horizontal row */}
         <Flex direction="row" overflowX="auto" gap={4}>
@@ -87,10 +99,12 @@ export default function RecipePage() {
               onClick={() => handleTaskClick(task)} // Handle task click
               cursor="pointer"
             >
-              <Text fontWeight="bold" fontSize="lg">
+              <Text fontWeight="bold" fontSize="1.5rem">
                 {task.name}
               </Text>
-              <Text mt={2}>{task.description}</Text>
+              <Text mt={2} fontSize="1rem">
+                {task.description}
+              </Text>
               <Text mt={2} fontStyle="italic">
                 {task.time} mins
               </Text>
@@ -112,7 +126,9 @@ export default function RecipePage() {
             </Text>
             {/* Display countdown timer */}
             <Text mt={4} fontSize="xl" color="red.500">
-              {timeLeft > 0 ? `Time left: ${formatTime(timeLeft)}` : "Time's up!"}
+              {timeLeft && timeLeft > 0
+                ? `Time left: ${formatTime(timeLeft)}`
+                : "Time's up!"}
             </Text>
           </ModalBody>
           <ModalFooter>
