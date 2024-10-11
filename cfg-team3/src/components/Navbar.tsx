@@ -298,9 +298,14 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "Inventory",
     children: [
       {
+        label: "Inventory",
+        subLabel: "View your inventory",
+        href: "/inventory",
+      },
+      {
         label: "Calculator",
         subLabel: "Calculating your bulk orders",
-        href: "#",
+        href: "/calculator",
       },
       {
         label: "Recipes",

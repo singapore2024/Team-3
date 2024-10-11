@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import "@/styles/inventory.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider, Stack } from "@chakra-ui/react";
 import { LoginStateProvider } from "@/features/auth/LoginStateContext";
