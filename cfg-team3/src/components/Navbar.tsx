@@ -82,6 +82,7 @@ export default function WithSubnavigation() {
             onClick={() => {
               Router.push("/");
             }}
+            cursor="pointer"
           />
           <Flex
             display={{ base: "none", md: "flex" }}
