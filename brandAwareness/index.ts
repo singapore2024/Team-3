@@ -3,10 +3,12 @@ import bodyParser from 'body-parser';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import * as fs from 'fs';
+import cors from 'cors'; 
 
 // Load environment variables from .env file
 dotenv.config({ path: '.env' });
 const api_key = process.env.OPENAI_API_KEY;
+
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -15,6 +17,7 @@ const openai = new OpenAI({
 
 // Initialize the Express application
 const app = express();
+app.use(cors())
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
@@ -96,7 +99,7 @@ app.get('/processStaffVoiceMessage', async (req: Request, res: Response) => {
 
 
 // Start the server and listen on a specified port
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
