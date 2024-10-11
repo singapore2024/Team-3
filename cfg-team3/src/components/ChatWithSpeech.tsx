@@ -39,19 +39,19 @@ export default function AccessibleChatWithSpeech() {
   const botMsgBg = useColorModeValue('gray.100', 'gray.700')
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      recognition.current = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
-      recognition.current.continuous = true
-      recognition.current.interimResults = true
+     if (typeof window !== 'undefined') {
+    //   recognition.current = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
+    //   recognition.current.continuous = true
+    //   recognition.current.interimResults = true
 
-      recognition.current.onresult = (event) => {
-        const transcript = Array.from(event.results)
-          .map(result => result[0])
-          .map(result => result.transcript)
-          .join('')
+    //   recognition.current.onresult = (event) => {
+    //     const transcript = Array.from(event.results)
+    //       .map(result => result[0])
+    //       .map(result => result.transcript)
+    //       .join('')
 
-        setInputText(transcript)
-      }
+    //     setInputText(transcript)
+    //   }
 
       synthesis.current = window.speechSynthesis
     }
