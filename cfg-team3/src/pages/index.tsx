@@ -4,8 +4,10 @@ import Router from "next/router";
 import { recipes } from "@/fakeDB/recipes";
 import { Image } from "@chakra-ui/react";
 import withNoSSR from "@/components/WithNoSSR";
+import { useReader } from "@/features/reader/ReaderContext";
 
 export function Home() {
+  const { isReaderMode } = useReader();
 
   const handleMoodClick = () => {
     Router.push("/mood");
@@ -15,7 +17,10 @@ export function Home() {
     <>
       <WithSubnavigation />
       <Box maxHeight="100vh" overflowY="auto" padding="4">
-        <Grid templateColumns={{base: "repeat(2, 1fr)", md: "repeat(3, 1fr)"}} gap={6}>
+        <Grid
+          templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }}
+          gap={6}
+        >
           {recipes.map((recipe, index) => (
             <VStack
               key={index + 1}
@@ -23,11 +28,24 @@ export function Home() {
               borderWidth="1px"
               borderRadius="lg"
               boxShadow="md"
-              onClick={() => Router.push(`/recipe/${index + 1}`)}
+              cursor="pointer"
+              onClick={() => {
+                if (isReaderMode) {
+                  const to_speak = new SpeechSynthesisUtterance(recipe.title);
+                  window.speechSynthesis.speak(to_speak);
+                } else {
+                  Router.push(`/recipe/${index + 1}`);
+                }
+              }}
               justifyContent="space-between"
               alignItems="center"
             >
-              <Text fontWeight="bold" fontSize="2rem" textAlign="center" noOfLines={2}>
+              <Text
+                fontWeight="bold"
+                fontSize="2rem"
+                textAlign="center"
+                noOfLines={2}
+              >
                 {recipe.title}
               </Text>
               <Box

@@ -40,7 +40,7 @@ export default function MoodsPage() {
 
   const handleSubmit = () => {
     if (selectedMood) {
-      console.log("the mood selected is: " + selectedMood)
+      console.log("the mood selected is: " + selectedMood);
       toast({
         title: "Mood recorded",
         description: `You're feeling ${selectedMood.name} ${selectedMood.emoji}`,

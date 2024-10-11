@@ -20,9 +20,12 @@ import {
   ChevronRightIcon,
 } from "@chakra-ui/icons";
 import Router from "next/router";
+import { useReader } from "@/features/reader/ReaderContext";
+import { MdOutlineSpatialAudio } from "react-icons/md";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
+  const { isReaderMode, setReaderMode } = useReader();
 
   return (
     <Box className="text-3xl">
@@ -45,10 +48,30 @@ export default function WithSubnavigation() {
           <IconButton
             onClick={onToggle}
             icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={12} h={12} />
+              isOpen ? (
+                <CloseIcon w={12} h={12} />
+              ) : (
+                <HamburgerIcon w={12} h={12} />
+              )
             }
             variant={"ghost"}
             aria-label={"Toggle Navigation"}
+          />
+          <IconButton
+            ml="2rem"
+            onClick={() => {
+              setReaderMode((prev) => !prev);
+            }}
+            icon={
+              <Icon
+                as={MdOutlineSpatialAudio}
+                w={12}
+                h={12}
+                color={isReaderMode ? "green.500" : "gray.500"}
+              />
+            }
+            variant={"ghost"}
+            aria-label={"Toggle Reader Mode"}
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
@@ -57,15 +80,35 @@ export default function WithSubnavigation() {
             alt="Fortitude Image"
             className="w-40"
             onClick={() => {
-              Router.push('/')
+              Router.push("/");
             }}
           />
           <Flex
             display={{ base: "none", md: "flex" }}
             ml={10}
             className="text-3xl self-center"
+            justifyContent="space-between"
+            width="full"
           >
-            <DesktopNav />
+            <Flex>
+              <DesktopNav />
+            </Flex>
+            <IconButton
+              mr="2rem"
+              onClick={() => {
+                setReaderMode((prev) => !prev);
+              }}
+              icon={
+                <Icon
+                  as={MdOutlineSpatialAudio}
+                  w={12}
+                  h={12}
+                  color={isReaderMode ? "green.500" : "gray.500"}
+                />
+              }
+              variant={"ghost"}
+              aria-label={"Toggle Reader Mode"}
+            />
           </Flex>
         </Flex>
       </Flex>

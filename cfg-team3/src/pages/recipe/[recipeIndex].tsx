@@ -21,6 +21,7 @@ import {
   Progress,
 } from "@chakra-ui/react";
 import withNoSSR from "@/components/WithNoSSR";
+import { useReader } from "@/features/reader/ReaderContext";
 
 export function RecipePage() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export function RecipePage() {
   const [completedTasks, setCompletedTasks] = useState<Set<number>>(new Set());
   const [timeLeft, setTimeLeft] = useState<number | null>(null); // Time left in seconds
   const [isRunning, setIsRunning] = useState(false); // Timer running state
+  const { isReaderMode } = useReader();
 
   // Countdown timer effect
   useEffect(() => {
@@ -71,6 +73,13 @@ export function RecipePage() {
     description: string;
     time?: number;
   }) => {
+    if (isReaderMode) {
+      const speak_name = new SpeechSynthesisUtterance(task.name);
+      window.speechSynthesis.speak(speak_name);
+      const speak_description = new SpeechSynthesisUtterance(task.description);
+      window.speechSynthesis.speak(speak_description);
+      return;
+    }
     setSelectedTask(task); // Set the clicked task
     if (task.time) {
       setTimeLeft(task.time * 60); // Reset the countdown timer
@@ -88,7 +97,9 @@ export function RecipePage() {
 
   // Complete task inside the modal and reflect on the main list
   const handleCompleteTaskInModal = () => {
-    const taskIndex = tasks.findIndex((task) => task.name === selectedTask?.name);
+    const taskIndex = tasks.findIndex(
+      (task) => task.name === selectedTask?.name
+    );
     if (taskIndex !== -1) {
       setCompletedTasks((prev) => {
         const newSet = new Set(prev);
@@ -196,7 +207,7 @@ export function RecipePage() {
                 Start
               </Button>
               <Button
-              size="lg"
+                size="lg"
                 colorScheme="yellow"
                 onClick={() => setIsRunning(false)}
                 isDisabled={!isRunning}
@@ -204,7 +215,7 @@ export function RecipePage() {
                 Pause
               </Button>
               <Button
-              size="lg"
+                size="lg"
                 colorScheme="red"
                 onClick={() => {
                   if (selectedTask?.time) setTimeLeft(selectedTask.time * 60);
@@ -217,7 +228,7 @@ export function RecipePage() {
           </ModalBody>
           <ModalFooter>
             <Button
-            bg="black"
+              bg="black"
               color="white"
               mr={3}
               onClick={handleCompleteTaskInModal}

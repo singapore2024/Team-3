@@ -11,8 +11,7 @@ export const recipes = [
       },
       {
         name: "Prepare chicken",
-        description:
-          "Coat with flour, egg, and panko. Fry until golden brown",
+        description: "Coat with flour, egg, and panko. Fry until golden brown",
         time: 1,
       },
       {
